@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Vanilla_BOL_SF_Regression" parallel="tests"
+	thread-count="5">
+
+	<test name="Address Book Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.AddressBookTest">
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Animation Delivery Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.AnimationDeliveryTest"> 
+		</class> </classes> </test> <test name="Animation Mini Cart Test"> <parameter 
+		name="browserName" value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.AnimationMiniCartTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Change Password Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.ChangePasswordTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Create New Account Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.CreateNewAccountTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Delivery EGift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.DeliveryEGiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Delivery Physical Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.DeliveryPhysicalTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E Other Amount Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EOtherAmountGuestUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E Other Amount Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EOtherAmountRegisteredUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E PDP Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.E2EPDPGuestUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E PDP Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EPDPRegisteredUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E PLP Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.E2EPLPGuestUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E PLP Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EPLPRegisteredUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E Promo Code Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EPromoCodeGuestUserTest">
+				<methods>
+					<exclude
+						name="tcid_18_E2E_PlasticGiftCard_CharityCard_PromoCode_PlaceOrder_GuestUser" />
+					<exclude
+						name="tcid_26_E2E_EGiftCard_CharityCard_PromoCode_PlaceOrder_GuestUser" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="E2E Promo Code Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.E2EPromoCodeRegisteredUserTest">
+				<methods>
+					<exclude
+						name="tcid_20_E2E_PlasticGiftCard_CharityCard_PromoCode_PlaceOrder_RegisteredUser" />
+					<exclude
+						name="tcid_28_E2E_EGiftCard_CharityCard_PromoCode_PlaceOrder_RegisteredUser" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="Footer Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.FooterTest">
+				<methods>
+					<exclude name="tc01_Footer_VerifyAllFooterLinksNavigation" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="Help Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.HelpTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="HomeTest">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.HomeTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mini Cart Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.MiniCartTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mixed Cart Delivery Pages Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.MixedCartDeliveryPagesTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mixed Cart Different Design Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.MixedCartDifferentDesignGuestUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mixed Cart Different Design Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.MixedCartDifferentDesignRegisteredUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mixed Cart Same Design Guest User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.MixedCartSameDesignGuestUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Mixed Cart Same Design Registered User Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.MixedCartSameDesignRegisteredUserTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="News Letter Subscription Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.NewsLetterSubscriptionTest">
+				<methods>
+					<include
+						name="tc01_HomePage_Footer_NewsLetter_Subscription_Section_Visible"></include>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="Order Confirmation Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.OrderConfirmationTest">
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Order History Animation Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.OrderHistoryAnimationTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Order History Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.OrderHistoryTest">
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="PDP Animation Playing Rules Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.PDPAnimationPlayingRulesTest"> 
+		</class> </classes> </test> <test name="PDP Animation View All Test"> <parameter 
+		name="browserName" value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.PDPAnimationViewAllTest"> 
+		</class> </classes> </test> -->
+
+	<test name="PDP Gift Message Retaining Info Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.PDPGiftMessageRetainingInfoTest">
+				<methods>
+					<exclude
+						name="tc17_PDP_AnimationGiftCard_Switching_Between_Products_RecipientEmail_GiftMessage_TO_FROM_Message_Retained" />
+					<exclude
+						name="tc19_PDP_AnimationGiftCard_AddToCart_Products_RecipientEmail_GiftMessage_TO_FROM_Message_Cleared" />
+					<exclude
+						name="tc21_PDP_AnimationGiftCard_RecipientEmail_GiftMessage_TO_FROM_Message_Retained_When_Another_Product_Selected_From_PLP" />
+					<exclude
+						name="tc23_PDP_AnimationGiftCard_AddToCart_Products_RecipientEmail_GiftMessage_TO_FROM_Message_Not_Retained_When_Another_Product_selected_From_PLP" />
+					<exclude
+						name="tc25_PDP_AnimationGiftCard_GuestUser_RecipientEmail_GiftMessage_TO_FROM_Message_Retained_After_Login" />
+					<exclude
+						name="tc27_PDP_AnimationGiftCard_GuestUser_RecipientEmail_GiftMessage_TO_FROM_Message_Message_NotRetained_After_Login_When_AddedToCart" />
+					<exclude
+						name="tc29_PDP_AnimationGiftCard_SignedInUser_RecipientEmail_GiftMessage_TO_FROM_Message_Retained_AfterLogout" />
+					<exclude
+						name="tc31_PDP_AnimationGiftCard_SignedInUser_RecipientEmail_GiftMessage_TO_FROM_Message_NotRetained_After_Logout_When_AddedToCart" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<test name="PDP Gift Message Section Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.PDPGiftMessageSectionTest">
+				<methods>
+					<exclude
+						name="tc35_PDP_AnimationGiftCard_Gift_Message_Section" />
+					<exclude
+						name="tc36_PDP_AnimationGiftCard_GiftMessageSection_SeeOurPersonalMessageGuidelinesLink" />
+					<exclude
+						name="tc37_PDP_AnimationGiftCard_GiftMessage_Section_Preview_Message_Button" />
+					<exclude
+						name="tc38_PDP_AnimationGiftCard_AddToCart_And_ContinueShopping_Buttons" />
+					<exclude name="tc41_PDP_eGiftCard_Gift_Message_Section_Preview_Message_Button"/>	
+
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Product Details Page Animation Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.ProductDetailsPageAnimationTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Product Details Page EGift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ProductDetailsPageEGiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Product Details Page Physical Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ProductDetailsPagePhysicalTest">
+			</class>
+		</classes>
+	</test>
+
+
+	<!-- <test name="Product Listing Page Animation Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.ProductListingPageAnimationTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Product Listing Page Egift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ProductListingPageEgiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Product Listing Page Physical Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ProductListingPagePhysicalTest">
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Retail Locations Test"> <parameter name="browserName" value="chrome" 
+		/> <classes> <class name="com.incomm.vanillabolsf.tests.RetailLocationsTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Review And Payment EGift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ReviewAndPaymentEGiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Review And Payment Physical Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ReviewAndPaymentPhysicalTest">
+				<methods>
+					<exclude
+						name="tc14_ReviewAndPayment_EmailSendTo_AnimationName" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="Shopping Cart Animation Test"> <parameter name="browserName" 
+		value="chrome" /> <classes> <class name="com.incomm.vanillabolsf.tests.ShoppingCartAnimationTest"> 
+		</class> </classes> </test> -->
+
+	<test name="Shopping Cart EGift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ShoppingCartEGiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Shopping Cart Gift Options EGift Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ShoppingCartGiftOptionsEGiftTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Shopping Cart Gift Options Physical Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ShoppingCartGiftOptionsPhysicalTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Shopping Cart Plastic Card Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class
+				name="com.incomm.vanillabolsf.tests.ShoppingCartPlasticCardTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="SignIn Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.SignInTest">
+			</class>
+		</classes>
+	</test>
+
+	<test name="Track Order Test">
+		<parameter name="browserName" value="chrome" />
+		<classes>
+			<class name="com.incomm.vanillabolsf.tests.TrackOrderTest">
+			</class>
+		</classes>
+	</test>
+</suite>
