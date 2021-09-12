@@ -2,7 +2,7 @@ package com.accuweather.exception;
 
 /**
  * Represents the any framework related errors.. 
- * @author  Vishnu
+ * @author  rvishnu
  * @version 1.0
  */
 public class FrameworkException extends RuntimeException {

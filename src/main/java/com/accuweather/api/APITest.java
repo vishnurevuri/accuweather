@@ -1,9 +1,15 @@
 package com.accuweather.api;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
@@ -12,12 +18,18 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import com.accuweather.base.BaseTest;
+import com.accuweather.exception.FailedVerificationException;
 import com.accuweather.reports.StepReportData.StepStatus;
 import com.accuweather.reports.TestLogger;
 import com.accuweather.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -60,7 +72,7 @@ public class APITest {
 		final RequestSpecification reqSpecification = RestAssured.given();
 
 		Map<String, String> queryParamsMap = createMap(
-				"q=London,London,GB&units=metric&appid=7fe67bf08c80ded756e598d6f8fedaea");
+				BaseTest.getStringProperty("parameters"));
 		reqSpecification.queryParams(queryParamsMap);
 		TestLogger.logStep(StepStatus.INFO, "<b>Query Params:<br> </b>" + printMap(queryParamsMap));
 
@@ -187,5 +199,60 @@ public class APITest {
 			return input;
 		}
 	}
+	
+	/**
+	 * Retrieves value for the given key from Response payload.
+	 * 
+	 * @param resStr
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public String getValueFromResponse(String resStr, String key) {
+		String xmlValue = null;
+		try {
+			if (isNotEmpty(key)) {
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder;
+
+				builder = factory.newDocumentBuilder();
+
+				org.w3c.dom.Document document = builder.parse(new InputSource(new StringReader(resStr)));
+				Element rootElement = document.getDocumentElement();
+				xmlValue = getXmlValue(key, rootElement);
+			} else {
+				throw new FailedVerificationException("Key " + key + " not found in the response");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return xmlValue;
+	}
+
+	/**
+	 * Fetches given tag values
+	 * 
+	 * @param tagName
+	 * @param element
+	 * @return
+	 */
+	private String getXmlValue(String tagName, Element element) {
+		String value = "";
+		NodeList list = element.getElementsByTagName(tagName);
+		for (int i = 0; i < list.getLength(); i++) {
+			NodeList subList = list.item(i).getChildNodes();
+			if (subList != null && subList.getLength() > 0) {
+				value += subList.item(0).getNodeValue() + "&";
+			}
+		}
+		int count = CharMatcher.is('&').countIn(value);
+		if (count == 1) {
+			value = value.replace("&", "");
+		}
+		return value;
+	}
+	
+	
 
 }

@@ -24,13 +24,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.collections.Maps;
 
 import com.accuweather.exception.FrameworkException;
-import com.accuweather.reports.TestLogger;
 import com.accuweather.reports.StepReportData.StepStatus;
+import com.accuweather.reports.TestLogger;
 import com.accuweather.util.Log;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.fasterxml.jackson.databind.Module;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -46,28 +48,34 @@ import com.typesafe.config.ConfigFactory;
 public class BaseTest {
 
 	public static Config config;
-	private Properties properties = new Properties();
-
-	protected static String FS = File.separator;
-
-	public static ThreadLocal<Method> method = new ThreadLocal<Method>();
-
-	private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
-
-	private WebDriver driver;
+	private Properties properties = new Properties();;
+	public String fileName;
+	public static ExtentReports extentReport;
 	protected static ExtentHtmlReporter htmlReporter;
-	protected static StringBuilder sbFileName;	
+	protected static StringBuilder sbFileName;
+	protected static String FS = File.separator;
 	public static final String HTML_EXT = ".html";
 	protected static final String ZIP_EXT = ".zip";
 	protected Map<String, String> suiteParameters;
 	protected static final String SCREENSHOTDIRNAME = "reports" + FS + "html_report" + FS + "screenshots" + FS;
-		
+	private static File screenShotDir = new File(SCREENSHOTDIRNAME);	
 
-	public static ExtentReports extentReport;
+	public static String buildNumber = "";
 	public static String date;
-	public String fileName;
-	private static File screenShotDir = new File(SCREENSHOTDIRNAME);
+	public static ThreadLocal<ITestContext> context = new ThreadLocal<ITestContext>();
+	public static ThreadLocal<Method> method = new ThreadLocal<Method>();
+	public static Map<String, Module> modulesDetails = Collections
+			.synchronizedMap(Maps.<String, Module> newLinkedHashMap());
+
+	public static boolean IS_PARALLEL_EXEC = false;
+
 	
+	private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
+
+	
+	
+	private WebDriver driver;
+
 	/**
 	 * Initializes BaseTest.
 	 */
@@ -84,9 +92,37 @@ public class BaseTest {
 		Log.debug("InitializeConfig called");
 		initializeBaseConfig();
 		initializeReport(context);
+	}
+
+	/**
+	 * Initializes report parameters.
+	 * 
+	 * @param context
+	 */
+	public void initializeReport(ITestContext context) {
+
+		suiteParameters = context.getSuite().getXmlSuite().getAllParameters();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+
+		date = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+
+		sbFileName = new StringBuilder();
+
+		sbFileName.append("report").append("_").append(date);
+
+		fileName = sbFileName.toString().replaceAll(" ", "_").concat(HTML_EXT).toLowerCase();
+
+		htmlReporter = new ExtentHtmlReporter(
+				System.getProperty("user.dir") + FS + "reports" + FS + "html_report" + FS + fileName);
+		htmlReporter.config().setDocumentTitle(config.getString("documentTitle"));
+		htmlReporter.config().setReportName(config.getString("ReportName"));
+		extentReport = new ExtentReports();
+		extentReport.attachReporter(htmlReporter);
 
 	}
 
+	
 	/**
 	 * Loads multiple Config files from resource folder.
 	 */
@@ -234,52 +270,84 @@ public class BaseTest {
 		return properties;
 	}
 
+	
+
+	
+	
 	@BeforeMethod
-	public void launchBrowser(Method method, ITestResult result) {
+	public void launchBrowser(Method method,ITestResult result) {			
 		Log.startTestCase(method.getName());
+			
 		TestLogger.createExtentTest(method.getName());
+		
 		String browserName = "chrome";
 		if (browserName.equalsIgnoreCase("firefox")) {
-			driver = new FirefoxDriver();
+			driver = new FirefoxDriver();			
 		} else if (browserName.equalsIgnoreCase("ie")) {
-			System.setProperty("webdriver.ie.driver",
-					System.getProperty("user.dir") + getStringProperty("iedriverpath"));
+			System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+getStringProperty("iedriverpath"));
 
 			driver = new InternetExplorerDriver();
-
+			
 		} else if (browserName.equalsIgnoreCase("chrome")) {
-			System.setProperty("webdriver.chrome.driver",
-					System.getProperty("user.dir") + getStringProperty("chromeDriverpath"));
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+getStringProperty("chromeDriverpath"));
 
 			driver = new ChromeDriver();
-
-		} else {
-			Log.error("Invalid Browser");
-
+			
+		} else {		
+			Log.error("Invalid Browser");		
+			
 		}
-		TestLogger.logStep(StepStatus.PASS, "Successfully launch the browser",false);		
 		setWebDriver(driver);
 		setMethod(method);
 		result.setAttribute("web.driver", driver);
-		result.setAttribute("method", method.getName());
-
-		getDriver().manage().window().maximize();
-		getDriver().manage().timeouts().implicitlyWait(getTestConfig().getInt("implicitlyWait"), TimeUnit.SECONDS);
-		getDriver().manage().timeouts().pageLoadTimeout(getTestConfig().getInt("pageLoadTimeout"), TimeUnit.SECONDS);
-		getDriver().manage().timeouts().setScriptTimeout(getTestConfig().getInt("scriptTimeout"), TimeUnit.SECONDS);
+		result.setAttribute("method", method.getName());		
+		
+		TestLogger.logStep(StepStatus.PASS, "Successfully launch the browser",false);		
+		getDriver().manage().window().maximize();		
+		getDriver().manage().timeouts().implicitlyWait(getTestConfig().getInt("implicitlyWait"),
+				TimeUnit.SECONDS);
+		getDriver().manage().timeouts().pageLoadTimeout(getTestConfig().getInt("pageLoadTimeout"),
+				TimeUnit.SECONDS);
+		getDriver().manage().timeouts().setScriptTimeout(getTestConfig().getInt("scriptTimeout"),
+				TimeUnit.SECONDS);
 		driver.get(getStringProperty("url"));
 	}
-
+	
 	@AfterMethod
-	public void closeBrowser() {
+	public void closeBrowser(){
 		WebDriver driver = getDriver();
 		if ((driver != null)) {
-			driver.quit();
-			Log.info("Successfully close the browser");
-			Log.endTestCase();
+		driver.quit();
+		Log.info("Successfully close the browser");		
+		Log.endTestCase();
 		}
 	}
-
+	
+	
+	
+	
+	/**
+	 * @return extent report object.
+	 */
+	public static ExtentReports getExtentReport() {
+		return extentReport;
+	}
+	
+	/**
+	 * @return the screenShotDir
+	 */
+	public static File getScreenShotDir() {
+		return screenShotDir;
+	}
+	
+	
+	@AfterSuite
+	public void tearDown(){
+		getExtentReport().flush();
+	}
+	
+	
+	
 	/**
 	 * Sets WebDriver reference in ThreadLocal object.
 	 * 
@@ -289,6 +357,7 @@ public class BaseTest {
 		BaseTest.webDriver.set(driver);
 	}
 
+	
 	/**
 	 * Returns an instance of the web driver.
 	 * 
@@ -307,50 +376,5 @@ public class BaseTest {
 		BaseTest.method.set(method);
 	}
 	
-	/**
-	 * Initializes report parameters.
-	 * 
-	 * @param context
-	 */
-	public void initializeReport(ITestContext context) {
-
-		suiteParameters = context.getSuite().getXmlSuite().getAllParameters();
-
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-
-		date = simpleDateFormat.format(new Date(System.currentTimeMillis()));
-
-		sbFileName = new StringBuilder();
-
-		sbFileName.append("report").append("_").append(date);
-
-		fileName = sbFileName.toString().replaceAll(" ", "_").concat(HTML_EXT).toLowerCase();
-
-		htmlReporter = new ExtentHtmlReporter(
-				System.getProperty("user.dir") + FS + "reports" + FS + "html_report" + FS + fileName);
-		htmlReporter.config().setDocumentTitle(config.getString("documentTitle"));
-		htmlReporter.config().setReportName(config.getString("ReportName"));
-		extentReport = new ExtentReports();
-		extentReport.attachReporter(htmlReporter);
-
-	}
-
-	/**
-	 * @return the screenShotDir
-	 */
-	public static File getScreenShotDir() {
-		return screenShotDir;
-	}
 	
-	/**
-	 * @return extent report object.
-	 */
-	public static ExtentReports getExtentReport() {
-		return extentReport;
-	}
-
-	@AfterSuite
-	public void tearDown(){
-		getExtentReport().flush();
-	}
 }

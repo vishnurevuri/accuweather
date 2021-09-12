@@ -1,5 +1,8 @@
 package com.accuweather.test;
 
+import java.util.List;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import com.accuweather.api.APITest;
@@ -14,12 +17,14 @@ public class AccuWeatherTest extends BaseTest {
 	public void configFileTest() {
 		HomePage homePage = new HomePage(getDriver());
 		homePage.searchLocation();
-		homePage.getTemp();
-		homePage.getPressure();
-		homePage.getHumidity();
+
+		List<Map<String, Double>> valuesFromUI = homePage.getWeatherDetailsFromUI();
 
 		APITest apiTest = new APITest();
 		Response weatherreport = apiTest.invokeService();
-		System.out.println(weatherreport.toString());
+
+		List<Map<String, Double>> valuesFromAPI = homePage.getWeatherDetailsFromAPI(weatherreport);
+		homePage.validateTemperatureDetails(valuesFromUI, valuesFromAPI);
+
 	}
 }

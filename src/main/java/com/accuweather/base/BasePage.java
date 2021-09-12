@@ -1,26 +1,39 @@
 package com.accuweather.base;
 
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-/**
- *  Represents the base page class that provide common abilities such as initilize the elements and utility methods
- * @author Vishnu
- *
- */
-
 public class BasePage {
-
-	private WebDriver driver = null;
-
-	public BasePage(WebDriver driver) {
+	
+	private WebDriver driver=null;
+	
+	public BasePage(WebDriver driver){
 		PageFactory.initElements(driver, this);
-		this.driver = driver;
-
+		this.driver=driver;
+		
 	}
-
-	public WebDriver getDriver() {
+	
+	
+	
+	public WebDriver getDriver(){
 		return driver;
+	}
+	
+	
+	
+	
+	/**
+	 * Checks whether given value empty or not.
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public boolean isNotEmpty(String value) {
+		if (StringUtils.isNotBlank(value)) {
+			return true;
+		}
+		return false;
 	}
 
 }
