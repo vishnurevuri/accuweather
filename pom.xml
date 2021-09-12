@@ -1,33 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>com.accuweather.testautomation</groupId>
+  <artifactId>accuweather_test</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
+  <name>accuweather_test</name>
+  <url>http://maven.apache.org</url>
 
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.accuweather.testautomation</groupId>
-	<artifactId>accuweather_test</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-
-	<name>accuweather_test</name>
-	<url>http://maven.apache.org</url>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
 		<testng.version>6.11</testng.version>
 		<sl4j.version>1.7.30</sl4j.version>
 		<selenium.version>3.141.59</selenium.version>
 		<extent.report.version>4.0.9</extent.report.version>
-	</properties>
+  </properties>
+  
 
 
-
-	<dependencies>
-
+  <dependencies>
+   
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
@@ -59,7 +54,11 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.11</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.5.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -74,32 +73,47 @@
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>3.1</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>com.typesafe</groupId>
 			<artifactId>config</artifactId>
 			<version>1.4.1</version>
 		</dependency>
-
-		
-			<dependency>
-				<groupId>com.aventstack</groupId>
-				<artifactId>extentreports</artifactId>
-				<version>${extent.report.version}</version>
-			</dependency>
-			<dependency>
+		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>${extent.report.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>apache-log4j-extras</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.12.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
@@ -110,34 +124,79 @@
 			<artifactId>sonar-maven-plugin</artifactId>
 			<version>3.2</version>
 		</dependency>
-
-
-
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.12.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>ru.yandex.qatools.ashot</groupId>
+			<artifactId>ashot</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.22</version>
+		</dependency>
 		<dependency>
 			<groupId>com.assertthat</groupId>
 			<artifactId>selenium-shutterbug</artifactId>
 			<version>1.3</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+			<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 	<build>
-		<plugins>
-
-			<plugin>
+         <plugins>          
+            
+            <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/suites/${suite}.xml</suiteXmlFile>
-					</suiteXmlFiles>
+					 <suiteXmlFiles>
+                     <suiteXmlFile>src/test/resources/suites/${suite}.xml</suiteXmlFile>
+                  </suiteXmlFiles>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
-
+         </plugins>
+      </build>
+  
 </project>
