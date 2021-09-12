@@ -2,8 +2,11 @@ package com.accuweather.base;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -18,11 +21,16 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import com.accuweather.exception.FrameworkException;
+import com.accuweather.reports.TestLogger;
+import com.accuweather.reports.StepReportData.StepStatus;
 import com.accuweather.util.Log;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -47,7 +55,19 @@ public class BaseTest {
 	private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
 
 	private WebDriver driver;
+	protected static ExtentHtmlReporter htmlReporter;
+	protected static StringBuilder sbFileName;	
+	public static final String HTML_EXT = ".html";
+	protected static final String ZIP_EXT = ".zip";
+	protected Map<String, String> suiteParameters;
+	protected static final String SCREENSHOTDIRNAME = "reports" + FS + "html_report" + FS + "screenshots" + FS;
+		
 
+	public static ExtentReports extentReport;
+	public static String date;
+	public String fileName;
+	private static File screenShotDir = new File(SCREENSHOTDIRNAME);
+	
 	/**
 	 * Initializes BaseTest.
 	 */
@@ -63,6 +83,7 @@ public class BaseTest {
 	public void initializeConfig(ITestContext context) {
 		Log.debug("InitializeConfig called");
 		initializeBaseConfig();
+		initializeReport(context);
 
 	}
 
@@ -216,7 +237,7 @@ public class BaseTest {
 	@BeforeMethod
 	public void launchBrowser(Method method, ITestResult result) {
 		Log.startTestCase(method.getName());
-
+		TestLogger.createExtentTest(method.getName());
 		String browserName = "chrome";
 		if (browserName.equalsIgnoreCase("firefox")) {
 			driver = new FirefoxDriver();
@@ -236,6 +257,7 @@ public class BaseTest {
 			Log.error("Invalid Browser");
 
 		}
+		TestLogger.logStep(StepStatus.PASS, "Successfully launch the browser",false);		
 		setWebDriver(driver);
 		setMethod(method);
 		result.setAttribute("web.driver", driver);
@@ -284,5 +306,51 @@ public class BaseTest {
 	public static void setMethod(Method method) {
 		BaseTest.method.set(method);
 	}
+	
+	/**
+	 * Initializes report parameters.
+	 * 
+	 * @param context
+	 */
+	public void initializeReport(ITestContext context) {
 
+		suiteParameters = context.getSuite().getXmlSuite().getAllParameters();
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+
+		date = simpleDateFormat.format(new Date(System.currentTimeMillis()));
+
+		sbFileName = new StringBuilder();
+
+		sbFileName.append("report").append("_").append(date);
+
+		fileName = sbFileName.toString().replaceAll(" ", "_").concat(HTML_EXT).toLowerCase();
+
+		htmlReporter = new ExtentHtmlReporter(
+				System.getProperty("user.dir") + FS + "reports" + FS + "html_report" + FS + fileName);
+		htmlReporter.config().setDocumentTitle(config.getString("documentTitle"));
+		htmlReporter.config().setReportName(config.getString("ReportName"));
+		extentReport = new ExtentReports();
+		extentReport.attachReporter(htmlReporter);
+
+	}
+
+	/**
+	 * @return the screenShotDir
+	 */
+	public static File getScreenShotDir() {
+		return screenShotDir;
+	}
+	
+	/**
+	 * @return extent report object.
+	 */
+	public static ExtentReports getExtentReport() {
+		return extentReport;
+	}
+
+	@AfterSuite
+	public void tearDown(){
+		getExtentReport().flush();
+	}
 }

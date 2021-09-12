@@ -1,3 +1,7 @@
+
+
+
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -17,7 +21,7 @@
 		<testng.version>6.11</testng.version>
 		<sl4j.version>1.7.30</sl4j.version>
 		<selenium.version>3.141.59</selenium.version>
-
+		<extent.report.version>4.0.9</extent.report.version>
 	</properties>
 
 
@@ -77,7 +81,13 @@
 			<version>1.4.1</version>
 		</dependency>
 
-		<dependency>
+		
+			<dependency>
+				<groupId>com.aventstack</groupId>
+				<artifactId>extentreports</artifactId>
+				<version>${extent.report.version}</version>
+			</dependency>
+			<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${selenium.version}</version>
